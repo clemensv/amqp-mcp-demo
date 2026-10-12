@@ -1,0 +1,12 @@
+{
+  "id": "classic",
+  "name": "ActiveMQ Classic",
+  "container": "amqpguide-classic-632",
+  "setup": { "compose": "compose.json" },
+  "config": {
+    "endpoint": "amqp://127.0.0.1:25672",
+    "node": "amqp-mcp-demo-classic",
+    "broker": "classic",
+    "sasl": { "mode": "plain", "username": "admin", "passwordEnv": "AMQP_DEMO_CLASSIC_PASSWORD" }
+  }
+}

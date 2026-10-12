@@ -1,0 +1,7 @@
+[
+  "./classic/broker.json",
+  "./artemis/broker.json",
+  "./rabbitmq/broker.json",
+  "./ibmmq/broker.json",
+  "./servicebus/broker.json"
+]

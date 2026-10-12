@@ -1,0 +1,12 @@
+{
+  "id": "artemis",
+  "name": "Apache Artemis",
+  "container": "amqpguide-artemis-2570",
+  "setup": { "compose": "compose.json" },
+  "config": {
+    "endpoint": "amqp://127.0.0.1:25673",
+    "node": "demo",
+    "broker": "artemis",
+    "sasl": { "mode": "plain", "username": "admin", "passwordEnv": "AMQP_DEMO_ARTEMIS_PASSWORD" }
+  }
+}

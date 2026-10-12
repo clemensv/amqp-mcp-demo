@@ -1,0 +1,23 @@
+{
+  "services": {
+    "artemis": {
+      "image": "apache/artemis:2.57.0",
+      "container_name": "amqpguide-artemis-2570",
+      "environment": {
+        "ARTEMIS_USER": "admin",
+        "ARTEMIS_PASSWORD": "${AMQP_DEMO_ARTEMIS_PASSWORD:?Set the test password}",
+        "ANONYMOUS_LOGIN": "false"
+      },
+      "ports": ["127.0.0.1:25673:5672"],
+      "healthcheck": {
+        "test": [
+          "CMD-SHELL",
+          "/var/lib/artemis-instance/bin/artemis check node --up --url tcp://localhost:61616 --user \"$$ARTEMIS_USER\" --password \"$$ARTEMIS_PASSWORD\""
+        ],
+        "interval": "5s",
+        "timeout": "10s",
+        "retries": 24
+      }
+    }
+  }
+}

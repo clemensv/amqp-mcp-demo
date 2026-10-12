@@ -1,0 +1,29 @@
+{
+  "name": "amqp-mcp-example-server",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "description": "Example echo/add MCP server using the AMQP transport package",
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "bin": {
+    "amqp-mcp-server": "dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "server": "node dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/core": "2.2.0",
+    "@modelcontextprotocol/server": "2.2.0",
+    "amqp-mcp-transport": "file:..",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.0"
+  }
+}

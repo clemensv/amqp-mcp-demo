@@ -1,0 +1,107 @@
+{
+  "name": "amqp-mcp-transport",
+  "version": "0.1.0",
+  "private": false,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clemensv/amqp-mcp-demo.git"
+  },
+  "homepage": "https://github.com/clemensv/amqp-mcp-demo#readme",
+  "bugs": {
+    "url": "https://github.com/clemensv/amqp-mcp-demo/issues"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "type": "module",
+  "description": "AMQP 1.0 transports for the MCP TypeScript SDK, with a stdio proxy entry point",
+  "keywords": [
+    "amqp",
+    "mcp",
+    "json-rpc",
+    "interoperability"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./cli": {
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "workspaces": [
+    "example"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "bin": {
+    "amqp-mcp-proxy": "dist/proxy.js"
+  },
+  "scripts": {
+    "build:transport": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json",
+    "build": "npm run build:transport",
+    "build:example": "npm run build --workspace amqp-mcp-example-server",
+    "build:all": "npm run build && npm run build:example",
+    "prepack": "npm run --silent build:transport",
+    "prepublishOnly": "npm run verify",
+    "typecheck": "tsc -p tsconfig.json --noEmit && npm run typecheck --workspace amqp-mcp-example-server",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write src test README.md DEMO.md example/README.md example/src example/package.json example/tsconfig.json eslint.config.mjs vitest.config.ts tsconfig.json package.json",
+    "format:check": "prettier --check src test README.md DEMO.md example/README.md example/src example/package.json example/tsconfig.json eslint.config.mjs vitest.config.ts tsconfig.json package.json",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "proxy": "node dist/proxy.js",
+    "server": "node example/dist/server.js",
+    "demo": "node test/interop.mjs",
+    "test:interop": "node test/interop.mjs --require-all",
+    "test:setup": "node test/setup.mjs",
+    "test:setup:check": "node test/setup.mjs --check",
+    "check:release": "node test/check-release.mjs",
+    "audit": "npm audit --audit-level=moderate",
+    "verify": "npm run build:all && npm run format:check && npm run typecheck && npm run lint && npm run test:coverage && npm run check:release && npm run audit"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "dependencies": {
+    "rhea-promise": "3.0.3",
+    "zod": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@modelcontextprotocol/core": "2.2.0",
+    "@modelcontextprotocol/server": "2.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@modelcontextprotocol/client": "2.2.0",
+    "@modelcontextprotocol/core": "2.2.0",
+    "@modelcontextprotocol/server": "2.2.0",
+    "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "5.0.2",
+    "eslint": "^9.0.0",
+    "eslint-plugin-tsdoc": "^0.5.4",
+    "prettier": "3.6.2",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "5.0.2"
+  },
+  "overrides": {
+    "source-map-js": "1.2.2"
+  }
+}

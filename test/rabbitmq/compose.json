@@ -1,0 +1,20 @@
+{
+  "services": {
+    "rabbitmq": {
+      "build": ".",
+      "image": "amqpguide/rabbitmq:4.3.6-management",
+      "container_name": "amqpguide-rabbitmq-436",
+      "environment": {
+        "RABBITMQ_DEFAULT_USER": "admin",
+        "RABBITMQ_DEFAULT_PASS": "${AMQP_DEMO_RABBITMQ_PASSWORD:?Set the test password}"
+      },
+      "ports": ["127.0.0.1:25674:5672"],
+      "healthcheck": {
+        "test": ["CMD", "rabbitmq-diagnostics", "-q", "ping"],
+        "interval": "5s",
+        "timeout": "10s",
+        "retries": 24
+      }
+    }
+  }
+}

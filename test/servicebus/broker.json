@@ -1,0 +1,15 @@
+{
+  "id": "servicebus",
+  "name": "Service Bus Premium",
+  "setup": null,
+  "config": {
+    "endpoint": "amqps://namespace.servicebus.windows.net",
+    "node": "demo",
+    "broker": "servicebus",
+    "sasl": {
+      "mode": "plain",
+      "username": "mcp-demo",
+      "passwordEnv": "AMQP_DEMO_SERVICEBUS_KEY"
+    }
+  }
+}

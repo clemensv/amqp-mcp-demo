@@ -1,0 +1,2 @@
+FROM rabbitmq:4.3.6-management
+ADD --chmod=755 --checksum=sha256:31887e0dc96e7654a9dfa007182af1281ee2fd4045de011ca1af72b0b962df51 https://github.com/rabbitmq/rabbitmqadmin-ng/releases/download/v2.35.0/rabbitmqadmin-2.35.0-x86_64-unknown-linux-gnu /usr/local/bin/rabbitmqadmin

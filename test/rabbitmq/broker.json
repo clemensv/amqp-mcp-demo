@@ -1,0 +1,12 @@
+{
+  "id": "rabbitmq",
+  "name": "RabbitMQ",
+  "container": "amqpguide-rabbitmq-436",
+  "setup": { "compose": "compose.json" },
+  "config": {
+    "endpoint": "amqp://127.0.0.1:25674",
+    "node": "demo",
+    "broker": "rabbitmq",
+    "sasl": { "mode": "plain", "username": "admin", "passwordEnv": "AMQP_DEMO_RABBITMQ_PASSWORD" }
+  }
+}

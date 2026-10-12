@@ -1,0 +1,32 @@
+{
+  "services": {
+    "ibmmq": {
+      "build": ".",
+      "image": "amqpguide/ibmmq:10.0.0.0-amqp",
+      "container_name": "amqpguide-ibmmq",
+      "environment": {
+        "LICENSE": "accept",
+        "LANG": "C",
+        "MQ_QMGR_NAME": "QM1",
+        "MQ_ENABLE_EMBEDDED_WEB_SERVER": "false"
+      },
+      "ports": ["127.0.0.1:25675:5672"],
+      "secrets": ["mqAppPassword"],
+      "volumes": ["./20-amqp.mqsc:/etc/mqm/20-amqp.mqsc:ro"],
+      "healthcheck": {
+        "test": [
+          "CMD-SHELL",
+          "chkmqready && printf 'DISPLAY CHANNEL(SYSTEM.DEF.AMQP) CHLTYPE(AMQP)\\n' | runmqsc QM1"
+        ],
+        "interval": "5s",
+        "timeout": "5s",
+        "retries": 24
+      }
+    }
+  },
+  "secrets": {
+    "mqAppPassword": {
+      "file": "${AMQP_TEST_PASSWORD_FILE:?Use test/setup.mjs or provide a password file}"
+    }
+  }
+}

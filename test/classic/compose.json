@@ -1,0 +1,19 @@
+{
+  "services": {
+    "classic": {
+      "build": ".",
+      "image": "amqpguide/activemq-classic:6.3.2",
+      "container_name": "amqpguide-classic-632",
+      "environment": {
+        "AMQP_DEMO_CLASSIC_PASSWORD": "${AMQP_DEMO_CLASSIC_PASSWORD:?Set the test password}"
+      },
+      "ports": ["127.0.0.1:25672:5672"],
+      "healthcheck": {
+        "test": ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/5672'"],
+        "interval": "5s",
+        "timeout": "5s",
+        "retries": 24
+      }
+    }
+  }
+}

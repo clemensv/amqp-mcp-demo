@@ -1,0 +1,18 @@
+{
+  "id": "ibmmq",
+  "name": "IBM MQ",
+  "container": "amqpguide-ibmmq",
+  "setup": {
+    "compose": "compose.json",
+    "afterStart": {
+      "args": ["exec", "-i", "amqpguide-ibmmq", "runmqsc", "QM1"],
+      "input": "START CHANNEL(SYSTEM.DEF.AMQP)\n"
+    }
+  },
+  "config": {
+    "endpoint": "amqp://127.0.0.1:25675",
+    "node": "DEV.AMQP.QUALIFY",
+    "broker": "ibmmq",
+    "sasl": { "mode": "plain", "username": "app", "passwordEnv": "AMQP_DEMO_IBMMQ_PASSWORD" }
+  }
+}
