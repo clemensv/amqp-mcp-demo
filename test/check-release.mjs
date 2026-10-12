@@ -167,6 +167,7 @@ try {
     !/\b[A-Z]:[\\/]/i.test(JSON.stringify(inventory)),
     'Inventory contains a local drive path.',
   );
+  mkdirSync(join(root, 'tmp'), { recursive: true });
   writeFileSync(join(root, 'tmp/sbom.cdx.json'), `${JSON.stringify(inventory, null, 2)}\n`);
   execFileSync(
     process.execPath,
