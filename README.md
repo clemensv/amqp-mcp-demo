@@ -317,6 +317,30 @@ to be `plain` and an `amqps://` endpoint.
 suspend expiry for their reply address. This setting does not change request
 deadlines or the lifetime of client-owned temporary queues.
 
+## AMQP request/reply flow
+
+Each process opens an AMQP connection. A connection contains a session, and a
+session carries sender and receiver links. The client sends requests to the
+configured request node and receives replies from its reply address. Unless
+`replyAddress` is configured, the client asks the broker for a dynamic reply
+queue and keeps its owner sender open until shutdown.
+
+1. The client encodes one JSON-RPC message or batch as one AMQP message. The
+   AMQP `message-id` identifies that envelope; JSON-RPC IDs remain in its body.
+   The client sets `reply-to` for requests and sends the message to the request
+   node.
+2. The server validates the AMQP message and JSON-RPC body, then dispatches each
+   request through a fresh SDK server. It sends the response to `reply-to` and
+   copies the request's AMQP `message-id` into the response's `correlation-id`.
+3. The client matches `correlation-id` to the original envelope, then checks
+   that the JSON-RPC response IDs match the calls in that envelope. A batch
+   therefore has one AMQP correlation ID and can contain several JSON-RPC IDs.
+4. AMQP link credit limits deliveries to a receiver; it counts envelopes, not
+   requests inside a batch. The server accepts a request delivery after its
+   reply is sent, or rejects it if processing or reply delivery fails. A
+   connection loss before acceptance can cause redelivery, so this does not
+   guarantee exactly-once tool execution.
+
 ## AMQP binding and failure behavior
 
 Each JSON-RPC envelope travels in an AMQP message with content type

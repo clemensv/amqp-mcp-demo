@@ -132,6 +132,7 @@ export class AmqpServer {
         throw new Error('Invalid reply address.');
       }
       authorizeReplyAddress(encoded.reply_to, this.config);
+      // Correlate the reply with the AMQP envelope; JSON-RPC IDs remain in the message body.
       route = { address: encoded.reply_to, messageId };
     }
     let body: JSONValue;

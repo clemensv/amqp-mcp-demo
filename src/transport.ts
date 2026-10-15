@@ -151,6 +151,7 @@ export class AmqpClientTransport implements Transport {
       if (this.config.replyAddress !== undefined) {
         this.replyAddress = this.config.replyAddress;
       } else {
+        // The dynamic-target sender owns the broker-created reply queue until it closes.
         this.owner = await this.owned.createOwnerSender(
           {
             ...temporaryQueueOptions(),
@@ -191,6 +192,7 @@ export class AmqpClientTransport implements Transport {
       if (this.closed) {
         throw new Error('AMQP transport closed during startup.');
       }
+      // Link credit is the allowance for incoming deliveries; receive() replenishes it as replies finish.
       this.receiver.addCredit(this.config.maxConcurrentRequests);
     } catch (error) {
       await this.close();
